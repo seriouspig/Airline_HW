@@ -1,7 +1,10 @@
 import org.junit.Before;
 import org.junit.Test;
 
+import java.time.LocalTime;
+
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class FlightManagerTest {
 
@@ -30,8 +33,8 @@ public class FlightManagerTest {
         plane2 = new Plane(PlaneType.AIRBUS_A380_800);
         plane3 = new Plane(PlaneType.CESSNA_172);
 
-        flight1 = new Flight(plane1, "ED1234", "GLA", "EDN", "12:45");
-        flight2 = new Flight(plane3, "ED3245", "ABD", "EDN", "11:15");
+        flight1 = new Flight(plane1, "ED1234", "GLA", "EDN", LocalTime.of(12,45));
+        flight2 = new Flight(plane3, "ED3245", "ABD", "EDN", LocalTime.of(11,15));
 
         flightManager1 = new FlightManager(flight1);
     }
@@ -57,5 +60,20 @@ public class FlightManagerTest {
         flight1.bookPassenger(passenger3);
         flight1.bookPassenger(passenger4);
         assertEquals(79457, flightManager1.getRemainingBaggageWeight());
+    }
+
+    @Test
+    public void canSortPassengersBySeat() {
+        flight1.bookPassenger(passenger1);
+        flight1.bookPassenger(passenger2);
+        flight1.bookPassenger(passenger3);
+        flight1.bookPassenger(passenger4);
+        flightManager1.sortPassengers(flight1);
+        assertTrue(flight1.getPassengers().get(0).getAssignedSeat().getSeatNumber() <
+                flight1.getPassengers().get(1).getAssignedSeat().getSeatNumber());
+        assertTrue(flight1.getPassengers().get(1).getAssignedSeat().getSeatNumber() <
+                flight1.getPassengers().get(2).getAssignedSeat().getSeatNumber());
+        assertTrue(flight1.getPassengers().get(2).getAssignedSeat().getSeatNumber() <
+                flight1.getPassengers().get(3).getAssignedSeat().getSeatNumber());
     }
 }

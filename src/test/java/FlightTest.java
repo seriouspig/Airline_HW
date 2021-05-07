@@ -1,6 +1,8 @@
 import org.junit.Before;
 import org.junit.Test;
 
+import java.time.LocalTime;
+
 import static org.junit.Assert.assertEquals;
 
 public class FlightTest {
@@ -28,8 +30,8 @@ public class FlightTest {
         plane2 = new Plane(PlaneType.AIRBUS_A380_800);
         plane3 = new Plane(PlaneType.CESSNA_172);
 
-        flight1 = new Flight(plane1, "ED1234", "GLA", "EDN", "12:45");
-        flight2 = new Flight(plane3, "ED3245", "ABD", "EDN", "11:15");
+        flight1 = new Flight(plane1, "ED1234", "GLA", "EDN", LocalTime.of(12,45));
+        flight2 = new Flight(plane3, "ED3245", "ABD", "EDN", LocalTime.of(11,15));
     }
 
     @Test
@@ -78,13 +80,13 @@ public class FlightTest {
 
     @Test
     public void canGetDepartureTime() {
-        assertEquals("12:45", flight1.getDepartureTime());
+        assertEquals(LocalTime.of(12,45), flight1.getDepartureTime());
     }
 
     @Test
     public void canChangeDepartureTime() {
-        flight1.changeDepartureTime("13:30");
-        assertEquals("13:30", flight1.getDepartureTime());
+        flight1.changeDepartureTime(LocalTime.of(13,30));
+        assertEquals(LocalTime.of(13,30), flight1.getDepartureTime());
     }
 
     @Test
