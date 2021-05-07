@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class FlightManager {
 
     private Flight flight;
@@ -41,5 +43,29 @@ public class FlightManager {
                 }
             }
         }
+    }
+
+    public Passenger findPassengerBySeat(ArrayList<Passenger> passengers, int searchNumber) {
+        if (passengers.size() == 0) {
+            return null;
+        }
+        int midIndex = 0;
+        if (passengers.size() > 1) {
+            midIndex = (int) Math.ceil((double) passengers.size() / 2);
+        }
+            Passenger midPassenger = passengers.get(midIndex);
+            if (midPassenger.getAssignedSeat().getSeatNumber() == searchNumber) {
+                return midPassenger;
+            }
+
+            ArrayList<Passenger> newSearchArea;
+            if (searchNumber < midPassenger.getAssignedSeat().getSeatNumber()) {
+                newSearchArea = new ArrayList<>(passengers.subList(0, midIndex));
+            } else {
+                newSearchArea = new ArrayList<>(passengers.subList(midIndex + 1, passengers.size()));
+            }
+
+            return findPassengerBySeat(newSearchArea, searchNumber);
+
     }
 }

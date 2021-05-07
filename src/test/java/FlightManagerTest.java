@@ -13,6 +13,8 @@ public class FlightManagerTest {
     private Passenger passenger3;
     private Passenger passenger4;
 
+    private Seat seat33;
+
     private Plane plane1;
     private Plane plane2;
     private Plane plane3;
@@ -28,6 +30,8 @@ public class FlightManagerTest {
         passenger2 = new Passenger("Catalina Ramos Caballero", 1);
         passenger3 = new Passenger("Tomasz Gryko", 0);
         passenger4 = new Passenger("Bartosz Perepeczo", 1);
+
+        seat33 = new Seat(33);
 
         plane1 = new Plane(PlaneType.BOEING_777_300);
         plane2 = new Plane(PlaneType.AIRBUS_A380_800);
@@ -75,5 +79,17 @@ public class FlightManagerTest {
                 flight1.getPassengers().get(2).getAssignedSeat().getSeatNumber());
         assertTrue(flight1.getPassengers().get(2).getAssignedSeat().getSeatNumber() <
                 flight1.getPassengers().get(3).getAssignedSeat().getSeatNumber());
+    }
+
+    @Test
+    public void canFindPassengerBySeat() {
+        flight1.bookPassenger(passenger1);
+        flight1.bookPassenger(passenger2);
+        flight1.bookPassenger(passenger3);
+        flight1.bookPassenger(passenger4);
+
+        passenger3.assignSeat(seat33);
+        flightManager1.sortPassengers(flight1);
+        assertEquals("Tomasz Gryko", flightManager1.findPassengerBySeat(flight1.getPassengers(), 33).getName());
     }
 }
